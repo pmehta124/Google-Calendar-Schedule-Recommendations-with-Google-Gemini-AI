@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import lotusImage from '/Users/namijain/VSCodeProjects/ReactWeb/my-app/my-app/src/assets/lotus.png'
+import lotusImage from 'C:/Users/palak/pdawg/PalakCoding/Python/Hackhers 2024 - NEW/my-app/src/assets/lotus.png'
 
 const Home = () => {
   return (

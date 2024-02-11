@@ -17,12 +17,20 @@ const SchedulePage = () => {
   return (
     <div style={{ backgroundColor: 'lightblue', padding: '20px', textAlign: 'center' }}>
       <h1>Schedule Page</h1>
-      
-      <label>
-        Enter your schedule:
+      <form action= "{{ url_for('test')}}" method="post">
+        <label>
+          What time do you wake up (ex: 8AM):
+          <input type="text" value={inputValue} onChange={handleInputChange} />
+        </label>
+      </form>
+
+      <br></br>
+
+      {/* <label>
+        What time do you sleep (ex: 10PM):
         <input type="text" value={inputValue} onChange={handleInputChange} />
       </label>
-      
+       */}
       <br />
       
       <button onClick={handleSchedule}>Schedule</button>

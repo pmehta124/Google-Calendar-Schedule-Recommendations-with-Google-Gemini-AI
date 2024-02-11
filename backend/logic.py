@@ -24,6 +24,11 @@ from datetime import timedelta
 import pathlib
 import textwrap
 
+import re
+import json
+
+
+
 import google.generativeai as genai
 
 from IPython.display import display
@@ -39,19 +44,11 @@ def gCalRetrieval():
     webbrowser.register('chrome', None,webbrowser.BackgroundBrowser(chrome_path))
     webbrowser.get('chrome').open_new_tab(urL)
 
-    #google calendar connect
     pp = pprint.PrettyPrinter(indent=2)
 
-
-    # The CLIENT_SECRETS_FILE variable specifies the name of a file that contains
-    # the OAuth 2.0 information for this application, including its client_id and
-    # client_secret.
     CLIENT_SECRETS_FILE = "credentials.json"
 
-
-    # This access scope grants read-only access to the authenticated user's Drive
-    # account.
-    SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+    SCOPES = ['https://www.googleapis.com/auth/calendar.readonly', 'https://www.googleapis.com/auth/calendar']
     API_SERVICE_NAME = 'calendar'
     API_VERSION = 'v3'
 
@@ -61,23 +58,9 @@ def gCalRetrieval():
     return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
 
 
-    # def list_drive_files(service, **kwargs):
-    #     results = service.files().list(
-    #         **kwargs
-    #     ).execute()
-
-
-    # pp.pprint(results)
-
-
 def getEvents():
-    # When running locally, disable OAuthlib's HTTPs verification. When
-    # running in production *do not* leave this option enabled.
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     service = gCalRetrieval()
-    # list_drive_files(service,
-    #                  orderBy='modifiedByMeTime desc',
-    #                  pageSize=5)
 
     return service
     
@@ -86,25 +69,20 @@ def getEvents():
 
 def setupDayEvents(service):
     currentDay = datetime.datetime.utcnow()
-    currentDay = currentDay - datetime.timedelta(days=4)
+    currentDay = currentDay - datetime.timedelta(days=3)
     currentDay = currentDay.isoformat() + "Z"
 
     nextDay = datetime.datetime.utcnow()
-    nextDay = nextDay - datetime.timedelta(days=3)
+    nextDay = nextDay - datetime.timedelta(days=2)
     nextDay = nextDay.isoformat() + "Z"
 
-    print(currentDay)
-    print(nextDay)
     eventDict = service.events().list(calendarId='primary', orderBy='startTime', singleEvents=True, timeMin=currentDay, timeMax=nextDay).execute()
     return eventDict
 
 def processDict(eventDict):
     schedule = {}
 
-    # date = eventDict['items'][0]["start"]["dateTime"]
-    # formatted_date = datetime.datetime.strftime(date, "%m-%d-%Y")
-    # print(formatted_date)
-
+    todayDate = datetime.datetime.fromisoformat(eventDict['items'][0]['start']['dateTime']).date()
 
     for i in eventDict['items']:
 
@@ -118,7 +96,7 @@ def processDict(eventDict):
         endNowFormat = endNow.strftime("%I:%M %p")
 
         schedule[i['summary']] = [startNowFormat, endNowFormat]
-    return schedule
+    return schedule, todayDate
 
 def runGemini(sDict):
     schedule = sDict
@@ -136,7 +114,7 @@ def runGemini(sDict):
 
     model = genai.GenerativeModel('gemini-pro')
 
-    response = model.generate_content(f'''Here is my schedule {schedule}. You are a bot that takes in this schedule. Do not change the time of any of the events. Add new events that would help with an employee's mental health and reduce stress. Make sure the new events do not conflict in time with the old events. Below, give the updated schedule in a table, sorted by start time, and DO NOT WRITE ANYTHING ELSE.''')
+    response = model.generate_content(f'''Here is my schedule {schedule}. You are a bot that takes in this schedule. Do not change the time of any of the events. Add new events that would help with an employee's mental health and reduce stress. Make sure the new events do not conflict in time with the old events. Below, give only the NEW activities added in a table, sorted by start time, and DO NOT WRITE ANYTHING ELSE. Format the table heading EXACTLY Like this: | Event | Start Time | End Time | |---|---|---|''')
 
 
     geminiResponse = to_markdown(response.text)
@@ -146,12 +124,46 @@ def runGemini(sDict):
     return response.text
 
 
+def tryThis(eventsList): 
+    service = getEvents()
+    
+    eventWhole = eventsList
+
+    print("PASSING IN EVENT\n", eventWhole)
+    print("EVENTS LIST\n", eventsList)
+    for i in eventWhole:
+        event = service.events().insert(calendarId='primary', body=i).execute()
+    return event.get('htmlLink')
+
+def extractClasses(response, todayDate): 
+    print(response)
+    response = response[48:]
+
+    pattern = r'\|([^|]+)\|([^|]+)\|([^|]+)\|'
+    matches = re.findall(pattern, response)
+    events_list = []
+    for match in matches:
+        event_name = match[0].strip()
+        start_time_str = match[1].strip()
+        end_time_str = match[2].strip()
+        start_time = datetime.datetime.combine(todayDate, datetime.datetime.strptime(start_time_str, "%I:%M %p").time())
+        end_time = datetime.datetime.combine(todayDate, datetime.datetime.strptime(end_time_str, "%I:%M %p").time())
+        event_info = {
+            "summary": event_name,
+            "start": {"dateTime": start_time.isoformat(), "timeZone": 'America/Los_Angeles'},
+            "end": {"dateTime": end_time.isoformat(), "timeZone": 'America/Los_Angeles'}
+        }
+        events_list.append(event_info)
+    print(events_list)
+
+    return events_list
+
+
 
 def main():
     events = getEvents()
     eventDict = setupDayEvents(events)
-    sched = processDict(eventDict)
-    return runGemini(sched)
-
-# main()
-
+    sched, todayDate = processDict(eventDict)
+    response = runGemini(sched)
+    eventsList = extractClasses(response, todayDate)
+    return tryThis(eventsList)

@@ -39,6 +39,28 @@ def data():
         return "Data received successfully"
 
 
+
+
+
+
+
+# @app.route("/data", methods=["POST"])
+# def data():
+#     print("LOOK ", request.method )
+#     # if request.method == "GET":
+#     #     return "HELLO"
+#     if request.method == "POST":
+#         data = request.json
+#         print(data)
+#         # Here you can handle the data received from the React app
+#         return "Data received successfully"
+
+
+
+
+
+
+
 # @app.route('/api/query', methods = ['POST'])
 # def get_query_from_react():
 #     data = request.get_json()
@@ -46,9 +68,9 @@ def data():
 #     return data
 
 
-@app.route('/')
-def hello():
-    return 'Hello, Flask is running!'
+# @app.route('/')
+# def hello():
+#     return 'Hello, Flask is running!'
 
 if __name__ == "__main__":
     app.run(debug=True)

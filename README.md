@@ -1,4 +1,4 @@
-Check out our demo on YouTube!: https://youtu.be/reFzH8RXSKs
+Check out our demo on YouTube! https://youtu.be/reFzH8RXSKs
 
 ## Inspiration
 Our inspiration for Break Balance stemmed from the growing amounts of stress and mental health pressures in recent years. As college students balancing classes, clubs, part-time jobs, and internships, we know the importance of scheduling personal time into our daily schedules. And working full-time is a whole different story! Our team wanted to create a solution that leverages AI to promote well-being by incorporating breaks and mood-boosting elements into employees’ work routines. Our goal was to create a website where employees can automatically insert well-being activities into their calendars using AI, based on when they like to wake up/sleep, their preferences, their mood today, and what the weather is today. In addition, we wanted to add song or meme suggestions based on the user’s mood. While we were not able to implement the entirety of this vision, we attempted to implement the core of the product. 

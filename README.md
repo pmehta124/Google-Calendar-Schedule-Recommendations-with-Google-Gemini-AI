@@ -1,4 +1,16 @@
+# Break Balance
+**Elevating Wellness with AI-Powered Mental Breaks & Mood-Boosting Music!**
+
 Check out our demo on YouTube! https://youtu.be/reFzH8RXSKs
+
+### Home Page
+<img src="https://github.com/pmehta124/relax/blob/main/WellnessAI%20Home.png" height =300 width="600" />
+
+### Song Recommendation
+<img src="https://github.com/pmehta124/relax/blob/main/WellnessAI%20Song.png" height =300 width="500" />
+
+### Schedule Wellness Activities
+<img src="https://github.com/pmehta124/relax/blob/main/WellnessAI%20Schedule.png" height =300 width="600" />
 
 ## Inspiration
 Our inspiration for Break Balance stemmed from the growing amounts of stress and mental health pressures in recent years. As college students balancing classes, clubs, part-time jobs, and internships, we know the importance of scheduling personal time into our daily schedules. And working full-time is a whole different story! Our team wanted to create a solution that leverages AI to promote well-being by incorporating breaks and mood-boosting elements into employees’ work routines. Our goal was to create a website where employees can automatically insert well-being activities into their calendars using AI, based on when they like to wake up/sleep, their preferences, their mood today, and what the weather is today. In addition, we wanted to add song or meme suggestions based on the user’s mood. While we were not able to implement the entirety of this vision, we attempted to implement the core of the product. 

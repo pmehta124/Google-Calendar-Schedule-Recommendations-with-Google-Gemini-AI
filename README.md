@@ -1,3 +1,5 @@
+Check our our demo!: https://youtu.be/reFzH8RXSKs
+
 ## Inspiration
 Our inspiration for Break Balance stemmed from the growing amounts of stress and mental health pressures in recent years. As college students balancing classes, clubs, part-time jobs, and internships, we know the importance of scheduling personal time into our daily schedules. And working full-time is a whole different story! Our team wanted to create a solution that leverages AI to promote well-being by incorporating breaks and mood-boosting elements into employees’ work routines. Our goal was to create a website where employees can automatically insert well-being activities into their calendars using AI, based on when they like to wake up/sleep, their preferences, their mood today, and what the weather is today. In addition, we wanted to add song or meme suggestions based on the user’s mood. While we were not able to implement the entirety of this vision, we attempted to implement the core of the product. 
 
@@ -15,3 +17,7 @@ We’re proud to have developed a functional prototype of Break Balance that uti
 
 ## What we learned
 Throughout the development process, our team was exposed to a ton of new implementation techniques and coding languages. Primarily, we learned about the intricacies of API integration – how to establish connections with APIs, effectively utilize their functionalities, and handle responses to ensure smooth data flow within our application. We also deepened our understanding of creating React and Flask web applications and tweaking UI elements to create an intuitive experience for the user. The overall experience enhanced our technical skills as well as our knowledge of how different technologies operate through APIs.
+
+## What’s next for Break Balance
+In the future, we would like to refine Break Balance’s capabilities further by using AI algorithms to provide a wider variety of personalized recommendations. This includes implementing the current “Song Recommendation” feature on the website, along with some other tools such as generating memes to boost a user’s mood or recommending a book to read!  One significant addition to our roadmap is implementing login authorization functionality, enabling companies to track employees' overall wellness metrics. This feature will provide valuable insights into the collective well-being of the workforce, allowing organizations to identify trends, assess areas for improvement, and tailor wellness initiatives accordingly. Ultimately, we envision Break Balance as a comprehensive tool for promoting mental health and wellness in our digital age.
+
